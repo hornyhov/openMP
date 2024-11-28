@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-#include "/opt/homebrew/Cellar/libomp/19.1.2/include/omp.h"
+// #include "/opt/homebrew/Cellar/libomp/19.1.2/include/omp.h"
 #include <stdio.h>
 #include <math.h>
 
@@ -157,7 +157,7 @@ double f(double x_l, double y_l, double x_r, double y_r, double h1, double h2) {
 
 int main() {
 
-    int M = 40,  N = 40;
+    int M = 41,  N = 41;
     double A1 = -3.0, A2 = 0.0, B1 = 3.0, B2 = 3.0;
     double ACC = 1e-6;
     double start_time,  end_time,  EPS;
@@ -167,13 +167,13 @@ int main() {
         EPS = h1 * h1;
     }
     else {
-        EPS = h2*h2;
+        EPS = h2 * h2;
     }
     double w[M][N], r[M][N], a[M][N], b[M][N], F[M][N], Diff[M][N], Ar[M][N];
     int i, j, k;
     double xi, yj, lij, gij, tmp;
 
-    start_time = omp_get_wtime();
+    // start_time = omp_get_wtime();
 
     for (i = 0; i < M; i++) {
         for (j = 0; j < N; j++) {
@@ -182,8 +182,8 @@ int main() {
         }
     }
 
-    for (i = 1; i < M-1; i++) {
-        for (j = 1; j < N-1; j++) {
+    for (i = 1; i < M; i++) {
+        for (j = 1; j < N; j++) {
             xi = A1 + i*h1;
             yj = A2 + j*h2;
 
@@ -193,7 +193,9 @@ int main() {
             a[i][j] = lij / h2 + (1.0 - lij / h2) / EPS;
             b[i][j] = gij / h1 + (1.0 - gij / h1) / EPS;
 
-            F[i][j] = f(xi-0.5*h1, yj-0.5*h2, xi+0.5*h1, yj+0.5*h2, h1, h2);
+            if(i != M-1 && j != N-1) {
+                F[i][j] = f(xi-0.5*h1, yj-0.5*h2, xi+0.5*h1, yj+0.5*h2, h1, h2);
+            }
         }
     }
 
@@ -235,7 +237,7 @@ int main() {
         norm = sqrt(norm);
     } 
 
-    printf("Time spent: %f\n", omp_get_wtime() - start_time);
+    // printf("Time spent: %f\n", omp_get_wtime() - start_time);
     printf("Total interations: %d\n", iter);
 
     std::ofstream myfile;
@@ -250,7 +252,7 @@ int main() {
         // printf("\n");
         myfile << "\n";
     }
-    myfile.close();
+    // myfile.close();
 
     return 0;
 }
