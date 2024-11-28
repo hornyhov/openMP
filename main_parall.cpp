@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "/opt/homebrew/Cellar/libomp/19.1.2/include/omp.h"
+#include "/opt/homebrew/Cellar/open-mpi/5.0.6/include/mpi.h"
 #include <stdio.h>
 #include <math.h>
 
@@ -191,8 +192,8 @@ int main() {
         }
 
     #pragma omp parallel for collapse(2) private(i, j, xi, yj, lij, gij) shared(M, N, EPS, h1, h2)
-        for (i = 1; i < M-1; i++) {
-            for (j = 1; j < N-1; j++) {
+        for (i = 1; i < M; i++) {
+            for (j = 1; j < N; j++) {
                 xi = A1 + i*h1;
                 yj = A2 + j*h2;
 
@@ -202,7 +203,9 @@ int main() {
                 a[i][j] = lij / h2 + (1.0 - lij / h2) / EPS;
                 b[i][j] = gij / h1 + (1.0 - gij / h1) / EPS;
 
-                F[i][j] = f(xi-0.5*h1, yj-0.5*h2, xi+0.5*h1, yj+0.5*h2, h1, h2);
+                if(i != M-1 && j != N-1) {
+                    F[i][j] = f(xi-0.5*h1, yj-0.5*h2, xi+0.5*h1, yj+0.5*h2, h1, h2);
+                }
             }
         }
 
