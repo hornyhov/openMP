@@ -368,7 +368,7 @@ int main(int argc, char **argv){
         MPI_Allreduce(&norm_dr, &global_norm_dr, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
         tau = global_norm_r / global_norm_dr;
 
-        #pragma omp parallel for reduction(+:norm) private(i, j, tmp) shared(w, r, Diff, M, N, row_start, col_start, row_end, col_end, tau, h1, h2)
+        #pragma omp parallel for reduction(+:norm) private(i, j, tmp) shared(w, r, M, N, row_start, col_start, row_end, col_end, tau, h1, h2)
             for (i = row_start + 1; i < row_end; i++) {
                 for (j = col_start + 1; j < col_end; j++) {
                     if(i == 0 || j == 0){
