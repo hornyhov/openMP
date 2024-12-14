@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-// #include "/opt/homebrew/Cellar/libomp/19.1.2/include/omp.h"
 #include <stdio.h>
 #include <math.h>
 

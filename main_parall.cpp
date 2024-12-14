@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <iostream>
-#include "/opt/homebrew/Cellar/libomp/19.1.2/include/omp.h"
+#include "/opt/homebrew/Cellar/libomp/19.1.4/include/omp.h"
 #include "/opt/homebrew/Cellar/open-mpi/5.0.6/include/mpi.h"
 #include <stdio.h>
 #include <math.h>
